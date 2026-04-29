@@ -65,7 +65,7 @@ st.balloons()
 st.markdown("<h1>✨ Emoo ✨</h1>", unsafe_allow_html=True)
 st.markdown('<p class="love-text">فقط لأني أحبك.. أحبك للأبد ❤️</p>', unsafe_allow_html=True)
 
-# 2. رسالة مني ليك (المحدثة)
+# 2. رسالة مني ليك
 with st.expander("💌 دي رسالة مني ليكي (افتحيها)"):
     st.write("""
     الموقع ده ذكري مني لو الايام خدتنا وبعدنا عن بعض.. بدأتها بحاجه حزينه صح؟ 😂😂
@@ -77,42 +77,56 @@ with st.expander("💌 دي رسالة مني ليكي (افتحيها)"):
     هنخلي الموقع ده بينا نحط فيه ذكريات ونحتفل بعيد ميلادك سنين كتيره.. حبيت اول واحد يقولك كل سنه وانتي طيبه يا ميمو، العمر كله ليكي ويكون خير عليكي وتحققي كل حاجه نفسك فيها بحبك 💗🎉❤️
     """)
 
-# 3. عرض الصور التلقائي
-with st.expander("📸 ذكرياتنا الحلوة (افتحيها)"):
-    # الكود هيدور على أي صور رفعتها على المشروع ويعرضها
+# 3. عرض الصور
+with st.expander("📸 ذكرياتنا الحلوة"):
     image_files = [f for f in os.listdir('.') if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
     if image_files:
         for img in image_files:
-            st.image(img, use_column_width=True, caption="❤️")
+            st.image(img, use_column_width=True)
     else:
-        st.write("ارفع الصور على GitHub عشان تظهر هنا يا بطل!")
+        st.write("ارفع الصور على GitHub عشان تظهر هنا!")
 
 st.write("---")
 
-# حساب الوقت
+# حساب التواريخ
 now = datetime.now()
-birth_date = datetime(2005, 5, 5) # تاريخ ميلاد ايمو
+birth_date = datetime(2005, 5, 5)
+first_met = datetime(2021, 5, 5) # تاريخ معرفتكم ببعض
+
+# حساب العداد التنازلي لعيد الميلاد
 next_birthday = datetime(now.year, 5, 5)
 if next_birthday < now:
     next_birthday = datetime(now.year + 1, 5, 5)
-diff = next_birthday - now
+diff_birthday = next_birthday - now
 
 # 4. العداد التنازلي لعيد الميلاد
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
-st.success(f"باقي **{diff.days}** يوم و **{diff.seconds // 3600}** ساعة!")
+st.success(f"باقي **{diff_birthday.days}** يوم و **{diff_birthday.seconds // 3600}** ساعة!")
 
 st.write("---")
 
-# 5. عداد العمر التفصيلي
-st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>⏳ رحلتك الجميلة</h3>", unsafe_allow_html=True)
-total_diff = now - birth_date
-st.metric("أيام", f"{total_diff.days:,}")
-st.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
-st.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
+# 5. عداد "بقالنا قد إيه نعرف بعض"
+st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎮 بقالنا قد إيه نعرف بعض</h3>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; font-size:14px;'>من يوم ما عرفنا بعض في ببجي (5/5/2021)</p>", unsafe_allow_html=True)
+diff_met = now - first_met
+years_met = diff_met.days // 365
+days_met = diff_met.days % 365
+col1, col2 = st.columns(2)
+col1.metric("سنين", f"{years_met}")
+col2.metric("أيام إضافية", f"{days_met}")
 
 st.write("---")
 
-# 6. زر المفاجأة والتوقيع
+# 6. عداد العمر
+st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>⏳ رحلتك الجميلة (عمرك)</h3>", unsafe_allow_html=True)
+total_age = now - birth_date
+st.metric("أيام", f"{total_age.days:,}")
+st.metric("دقائق", f"{int(total_age.total_seconds() // 60):,}")
+st.metric("ثواني", f"{int(total_age.total_seconds()):,}")
+
+st.write("---")
+
+# 7. زر المفاجأة والتوقيع
 if st.button('اضغطي هنا للمفاجأة 💖'):
     st.snow()
 
