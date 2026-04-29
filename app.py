@@ -65,7 +65,7 @@ st.balloons()
 st.markdown("<h1>✨ Emoo ✨</h1>", unsafe_allow_html=True)
 st.markdown('<p class="love-text">فقط لأني أحبك.. أحبك للأبد ❤️</p>', unsafe_allow_html=True)
 
-# 2. رسالة مني ليك (بعد التعديل الأخير)
+# 2. رسالة مني ليك (المحدثة)
 with st.expander("💌 دي رسالة مني ليكي (افتحيها)"):
     st.write("""
     الموقع ده ذكري مني لو الايام خدتنا وبعدنا عن بعض.. بدأتها بحاجه حزينه صح؟ 😂😂
@@ -74,18 +74,16 @@ with st.expander("💌 دي رسالة مني ليكي (افتحيها)"):
     
     احلا حد في الدنيا كده كده 💗
     
-    هنخلي الموقع ده بينا نحط فيه ذكريات ونحتفل بعيد ميلادك سنين كتيره.. حبيت اول واحد يقول كل سنه وانتي طيب يا ميمو، العمر كله ليكي ويكون خير عليكي وتحققي كل حاجه نفسك فيها بحبك 💗🎉❤️
+    هنخلي الموقع ده بينا نحط فيه ذكريات ونحتفل بعيد ميلادك سنين كتيره.. حبيت اول واحد يقولك كل سنه وانتي طيبه يا ميمو، العمر كله ليكي ويكون خير عليكي وتحققي كل حاجه نفسك فيها بحبك 💗🎉❤️
     """)
 
-# 3. عرض الصور اللي أنت ضفتها
-# ملاحظة: لو الصور مش ظاهرة، اتأكد إن أساميهم في GitHub مطابقة للأسامي اللي تحت دي
-with st.expander("📸 ذكرياتنا الحلوة"):
-    col1, col2 = st.columns(2)
-    # هحاول أعرض أي ملفات صور بصيغ مشهورة رفعتها
-    images = [f for f in os.listdir('.') if f.endswith(('.png', '.jpg', '.jpeg'))]
-    if images:
-        for img in images:
-            st.image(img, use_column_width=True)
+# 3. عرض الصور التلقائي
+with st.expander("📸 ذكرياتنا الحلوة (افتحيها)"):
+    # الكود هيدور على أي صور رفعتها على المشروع ويعرضها
+    image_files = [f for f in os.listdir('.') if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif'))]
+    if image_files:
+        for img in image_files:
+            st.image(img, use_column_width=True, caption="❤️")
     else:
         st.write("ارفع الصور على GitHub عشان تظهر هنا يا بطل!")
 
@@ -93,19 +91,19 @@ st.write("---")
 
 # حساب الوقت
 now = datetime.now()
-birth_date = datetime(2005, 5, 5)
+birth_date = datetime(2005, 5, 5) # تاريخ ميلاد ايمو
 next_birthday = datetime(now.year, 5, 5)
 if next_birthday < now:
     next_birthday = datetime(now.year + 1, 5, 5)
 diff = next_birthday - now
 
-# 4. العداد التنازلي
+# 4. العداد التنازلي لعيد الميلاد
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
 st.success(f"باقي **{diff.days}** يوم و **{diff.seconds // 3600}** ساعة!")
 
 st.write("---")
 
-# 5. عداد العمر
+# 5. عداد العمر التفصيلي
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>⏳ رحلتك الجميلة</h3>", unsafe_allow_html=True)
 total_diff = now - birth_date
 st.metric("أيام", f"{total_diff.days:,}")
