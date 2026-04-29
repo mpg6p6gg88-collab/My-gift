@@ -1,81 +1,61 @@
 import streamlit as st
 from datetime import datetime
-import time
 
-# إعدادات الصفحة عشان تظهر بقلوب حمرا
-st.set_page_config(page_title="Happy Birthday Emoo ❤️", page_icon="💖")
+# إعدادات الصفحة
+st.set_page_config(page_title="Emoo ❤️", page_icon="💖")
 
-# --- البيانات الأساسية ---
-NAME = "Eman (Emoo)"
-BIRTH_DATE = datetime(2005, 5, 5, 0, 0)
-FIRST_MET_YEAR = 2021
-MESSAGE = "فقط لأني أحبك للأبد ❤️"
+# --- نظام الباسورد ---
+def check_password():
+    if "password_correct" not in st.session_state:
+        st.markdown("<h3 style='text-align: center;'>هذا الموقع خاص جداً.. ادخلي كلمة السر 🔒</h3>", unsafe_allow_html=True)
+        password = st.text_input("كلمة السر", type="password")
+        if st.button("دخول"):
+            if password == "emoo2026": # تقدر تغير الباسورد ده لأي كلمة تانية
+                st.session_state["password_correct"] = True
+                st.rerun()
+            else:
+                st.error("كلمة السر غلط يا ست الكل ❌")
+        return False
+    return True
 
-# استايل الموقع (ألوان وردي وأحمر)
-st.markdown("""
-    <style>
-    .main {
-        background-color: #fff0f3;
-    }
-    h1 {
-        color: #ff4d6d;
-        text-align: center;
-    }
-    .stMetric {
-        background-color: #ffb3c1;
-        padding: 15px;
-        border-radius: 15px;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    }
-    </style>
-    """, unsafe_allow_html=True)
+if check_password():
+    # استايل الألوان
+    st.markdown("""
+        <style>
+        .main { background-color: #fff0f3; }
+        h1 { color: #ff4d6d; text-align: center; }
+        .stMetric { background-color: #ffb3c1; padding: 15px; border-radius: 15px; }
+        .footer { position: fixed; left: 0; bottom: 10px; width: 100%; text-align: center; color: #c9184a; font-weight: bold; }
+        </style>
+        """, unsafe_allow_html=True)
 
-st.balloons()
-st.title(f"✨ عالم {NAME} الخاص ✨")
+    st.balloons()
+    st.title("✨ Emoo ✨")
 
-# حساب الوقت الحالي
-now = datetime.now()
+    # --- عداد الزيارات (بسيط) ---
+    if 'count' not in st.session_state:
+        st.session_state.count = 1
+    else:
+        st.session_state.count += 1
+    
+    st.sidebar.write(f"👁️ عدد الزيارات: {st.session_state.count}")
 
-# 1. عداد الوقت اللي ناقص على عيد ميلادها الجاي
-next_birthday = datetime(now.year, BIRTH_DATE.month, BIRTH_DATE.day)
-if next_birthday < now:
-    next_birthday = datetime(now.year + 1, BIRTH_DATE.month, BIRTH_DATE.day)
+    # حساب الوقت
+    now = datetime.now()
+    birth_date = datetime(2005, 5, 5)
 
-diff_to_next = next_birthday - now
-days_left = diff_to_next.days
-hours_left = diff_to_next.seconds // 3600
+    st.subheader("⏳ رحلتك الجميلة:")
+    total_diff = now - birth_date
+    col1, col2, col3 = st.columns(3)
+    col1.metric("أيام", f"{total_diff.days:,}")
+    col2.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
+    col3.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
 
-st.subheader(f"🎁 الوقت المتبقي لعيد ميلادك الجاي:")
-st.success(f"باقي **{days_left}** يوم و **{hours_left}** ساعة على يومك المميز!")
+    st.write("---")
+    st.markdown("<h2 style='text-align: center;'>فقط لأني أحبك للأبد ❤️</h2>", unsafe_allow_html=True)
 
-st.write("---")
+    # توقيعك
+    st.markdown('<div class="footer">By Ahmed Samir</div>', unsafe_allow_html=True)
 
-# 2. عداد العمر التفصيلي (أيام، دقايق، ثواني)
-st.subheader("⏳ رحلتك في الحياة حتى الآن:")
-total_diff = now - BIRTH_DATE
-total_days = total_diff.days
-total_minutes = total_diff.total_seconds() // 60
-total_seconds = total_diff.total_seconds()
-
-col1, col2, col3 = st.columns(3)
-col1.metric("أيام", f"{total_days:,}")
-col2.metric("دقائق", f"{int(total_minutes):,}")
-col3.metric("ثواني", f"{int(total_seconds):,}")
-
-st.write("---")
-
-# 3. ذكرى ببجي (2021)
-st.subheader("🎮 ذكرى اللقاء الأول")
-years_together = now.year - FIRST_MET_YEAR
-st.info(f"منذ عام {FIRST_MET_YEAR} (لما بدأت الحكاية في ببجي).. بقالنا {years_together} سنين سوا!")
-
-# 4. الرسالة الكبيرة والقلوب
-st.write("---")
-st.markdown(f"<h2 style='text-align: center; color: #c9184a;'>{MESSAGE}</h2>", unsafe_allow_html=True)
-
-# إضافة قلوب وردي وحمرا في الصفحة
-if st.button('اضغط هنا عشان تشوف قلبي 💖'):
-    st.snow() # هتظهر قلوب/ندف تلج بشكل رومانسي
-    st.write("💖💗💓💞💕❣❤️💔💘💝")
-
-st.markdown("<p style='text-align: center;'>Made with ❤️ by Your Code Master</p>", unsafe_allow_html=True)
+    if st.button('اضغط هنا لشعور خاص 💖'):
+        st.snow()
