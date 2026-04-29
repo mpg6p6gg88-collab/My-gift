@@ -2,14 +2,21 @@ import streamlit as st
 from datetime import datetime
 
 # إعدادات الصفحة
-st.set_page_config(page_title="Emoo ❤️", page_icon="💖")
+st.set_page_config(page_title="Emoo ❤️", page_icon="💖", layout="centered")
 
-# --- نظام الباسورد ---
+# --- نظام الباص ---
 if "password_correct" not in st.session_state:
     st.markdown("""
         <style>
-        .stApp { background-color: #ffdae0; }
-        .login-box { background-color: white; padding: 30px; border-radius: 20px; border: 5px solid #ff4d6d; text-align: center; }
+        .stApp { background-color: #fff0f3; }
+        .login-box { 
+            background-color: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            border: 3px solid #ffb3c1; 
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
         h1 { color: #ff4d6d !important; }
         </style>
         <div class="login-box">
@@ -17,7 +24,7 @@ if "password_correct" not in st.session_state:
         </div>
     """, unsafe_allow_html=True)
     
-    password = st.text_input("كلمة السر", type="password")
+    password = st.text_input("", type="password", placeholder="اكتبي الكود هنا...")
     if st.button("دخول ✨"):
         if password == "emoo2026":
             st.session_state["password_correct"] = True
@@ -26,41 +33,42 @@ if "password_correct" not in st.session_state:
             st.error("الكود غلط يا ايمو ❌")
     st.stop()
 
-# --- التصميم الداخلي (بينك قوي ومنظم) ---
+# --- الاستايل الرايق (بينك متناسق) ---
 st.markdown("""
     <style>
-    /* الخلفية الوردية */
-    .stApp { background-color: #ff85a1; } 
+    .stApp { background-color: #fff0f3; } /* خلفية بينك هادية */
     
-    /* المستطيل الأبيض الأساسي */
     .block-container {
         background-color: white !important;
-        padding: 25px !important;
+        padding: 30px !important;
         border-radius: 25px !important;
-        border: 6px solid #ff4d6d !important;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        border: 2px solid #ffb3c1 !important;
+        box-shadow: 0 10px 25px rgba(255, 179, 193, 0.2);
         margin-top: 20px;
     }
     
-    /* العناوين بألوان قوية */
-    h1, h2, h3 { color: #c9184a !important; text-align: center !important; font-weight: bold !important; }
+    h1 { color: #ff4d6d !important; text-align: center !important; margin-bottom: 0px; }
+    .love-text { color: #c9184a; text-align: center; font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+    h3 { color: #ff758f !important; text-align: center !important; }
     
-    /* استايل العدادات */
     [data-testid="stMetric"] {
-        background-color: #ffe5ec !important;
-        border: 3px solid #ff4d6d !important;
+        background-color: #fffafb !important;
+        border: 1px solid #ffdae0 !important;
         border-radius: 15px !important;
-        padding: 15px !important;
-        margin-bottom: 15px !important;
+        text-align: center !important;
     }
-    [data-testid="stMetricValue"] { color: #ff4d6d !important; font-weight: bold !important; }
     
-    .footer { text-align: center; color: #ff4d6d; font-weight: bold; margin-top: 30px; font-size: 20px; }
+    .footer { text-align: center; color: #ffb3c1; font-weight: bold; margin-top: 30px; font-size: 14px; }
     </style>
 """, unsafe_allow_html=True)
 
 st.balloons()
+
+# العنوان والجملة تحت بعض مباشرة
 st.markdown("<h1>✨ Emoo ✨</h1>", unsafe_allow_html=True)
+st.markdown('<p class="love-text">فقط لأني أحبك.. أحبك للأبد ❤️</p>', unsafe_allow_html=True)
+
+st.write("---")
 
 # حساب الوقت
 now = datetime.now()
@@ -70,23 +78,22 @@ if next_birthday < now:
     next_birthday = datetime(now.year + 1, 5, 5)
 diff = next_birthday - now
 
-# العداد التنازلي
-st.markdown("<h3>🎁 باقي على عيد ميلادك:</h3>", unsafe_allow_html=True)
-st.info(f"باقي {diff.days} يوم و {diff.seconds // 3600} ساعة")
+# العدادات
+st.markdown("<h3>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
+st.success(f"باقي {diff.days} يوم و {diff.seconds // 3600} ساعة")
 
 st.write("---")
 
-# العدادات تحت بعضها (عشان الموبايل)
-st.markdown("<h3>⏳ رحلتك الجميلة:</h3>", unsafe_allow_html=True)
+st.markdown("<h3>⏳ رحلتك الجميلة</h3>", unsafe_allow_html=True)
 total_diff = now - birth_date
-st.metric("أيام", f"{total_diff.days:,}")
-st.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
-st.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
+col1, col2, col3 = st.columns(3)
+col1.metric("أيام", f"{total_diff.days:,}")
+col2.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
+col3.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
 
 st.write("---")
-st.markdown("<h2 style='text-align: center;'>أحبك للأبد ❤️</h2>", unsafe_allow_html=True)
-
 if st.button('اضغطي هنا للمفاجأة 💖'):
     st.snow()
 
+# التوقيع
 st.markdown('<div class="footer">By Ahmed Samir</div>', unsafe_allow_html=True)
