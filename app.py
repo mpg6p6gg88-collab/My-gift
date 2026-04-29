@@ -91,29 +91,31 @@ st.write("---")
 # حساب التواريخ
 now = datetime.now()
 birth_date = datetime(2005, 5, 5)
-first_met = datetime(2021, 5, 5) # تاريخ معرفتكم ببعض
+first_met = datetime(2021, 5, 5) # تاريخ المعرفة
 
-# حساب العداد التنازلي لعيد الميلاد
-next_birthday = datetime(now.year, 5, 5)
-if next_birthday < now:
-    next_birthday = datetime(now.year + 1, 5, 5)
-diff_birthday = next_birthday - now
-
-# 4. العداد التنازلي لعيد الميلاد
-st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
-st.success(f"باقي **{diff_birthday.days}** يوم و **{diff_birthday.seconds // 3600}** ساعة!")
-
-st.write("---")
-
-# 5. عداد "بقالنا قد إيه نعرف بعض"
+# 4. عداد "بقالنا قد إيه نعرف بعض" + الملحوظة
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎮 بقالنا قد إيه نعرف بعض</h3>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center; font-size:14px;'>من يوم ما عرفنا بعض في ببجي (5/5/2021)</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align:center; font-size:14px; color:#ffb3c1;'>انا مش فاكر عرفنا بعض يوم كام بظبط بس احنا نخليها زي يوم عيد ميلادك</p>", unsafe_allow_html=True)
+
 diff_met = now - first_met
 years_met = diff_met.days // 365
 days_met = diff_met.days % 365
 col1, col2 = st.columns(2)
 col1.metric("سنين", f"{years_met}")
 col2.metric("أيام إضافية", f"{days_met}")
+
+st.markdown("<p style='text-align:center; font-size:18px; font-weight:bold; color:#ff4d6d;'>بقالنا خمس سنين نعرف بعض ❤️</p>", unsafe_allow_html=True)
+
+st.write("---")
+
+# 5. العداد التنازلي لعيد الميلاد
+next_birthday = datetime(now.year, 5, 5)
+if next_birthday < now:
+    next_birthday = datetime(now.year + 1, 5, 5)
+diff_birthday = next_birthday - now
+
+st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
+st.success(f"باقي **{diff_birthday.days}** يوم و **{diff_birthday.seconds // 3600}** ساعة!")
 
 st.write("---")
 
