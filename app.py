@@ -2,90 +2,91 @@ import streamlit as st
 from datetime import datetime
 
 # إعدادات الصفحة
-st.set_page_config(page_title="Emoo ❤️", page_icon="💖", layout="centered")
+st.set_page_config(page_title="Emoo ❤️", page_icon="💖")
 
-# --- نظام الباسورد بتعديل الرسالة ---
-def check_password():
-    if "password_correct" not in st.session_state:
-        st.markdown("""
-            <style>
-            .stTextInput > div > div > input { background-color: #ffe5ec; border: 2px solid #ff4d6d; border-radius: 10px; color: #c9184a; }
-            .stButton>button { background-color: #ff4d6d; color: white; border-radius: 10px; width: 100%; font-weight: bold; }
-            .pass-text { text-align: center; color: #ff4d6d; font-family: 'Arial'; font-weight: bold; margin-bottom: 20px; }
-            </style>
-            <div class="pass-text"><h1>🔒 دخلي الكود يا ايمو</h1></div>
-        """, unsafe_allow_html=True)
-        password = st.text_input("كلمة السر", type="password", label_visibility="collapsed")
-        if st.button("دخول ✨"):
-            if password == "emoo2026": 
-                st.session_state["password_correct"] = True
-                st.rerun()
-            else:
-                st.error("الكود غلط يا ايمو ❌")
-        return False
-    return True
-
-if check_password():
-    # استايل المستطيل واللون البينك المتناسق
+# --- نظام الباسورد ---
+if "password_correct" not in st.session_state:
     st.markdown("""
         <style>
-        /* الخلفية الأساسية للموقع */
-        .stApp {
-            background-color: #ffdae0; 
-        }
-        /* المستطيل الأبيض المنظم في النص */
-        .block-container {
-            background-color: #ffffff;
-            padding: 40px !important;
-            border-radius: 30px;
-            border: 4px solid #ff4d6d;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.4);
-            margin-top: 30px;
-        }
-        h1 { color: #ff4d6d; text-align: center; font-size: 45px; font-weight: bold; }
-        h3 { color: #c9184a; text-align: center; font-weight: bold; }
-        /* استايل العدادات البينك */
-        [data-testid="stMetricValue"] { color: #ff4d6d !important; font-size: 35px !important; }
-        [data-testid="stMetricLabel"] { color: #c9184a !important; font-size: 18px !important; }
-        .stMetric { background-color: #fff0f3; padding: 20px; border-radius: 20px; border: 2px solid #ffb3c1; text-align: center; }
-        .footer { text-align: center; color: #ff4d6d; font-weight: bold; margin-top: 40px; font-size: 18px; border-top: 1px solid #ffb3c1; padding-top: 15px; }
+        .stApp { background-color: #ffdae0; }
+        .login-box { background-color: white; padding: 30px; border-radius: 20px; border: 5px solid #ff4d6d; text-align: center; }
+        h1 { color: #ff4d6d !important; }
         </style>
+        <div class="login-box">
+            <h1>🔒 دخلي الكود يا ايمو</h1>
+        </div>
     """, unsafe_allow_html=True)
-
-    st.balloons()
-    st.title("✨ Emoo ✨")
-
-    # حساب الوقت
-    now = datetime.now()
-    birth_date = datetime(2005, 5, 5)
-
-    # 1. العداد التنازلي لعيد الميلاد
-    next_birthday = datetime(now.year, 5, 5)
-    if next_birthday < now:
-        next_birthday = datetime(now.year + 1, 5, 5)
-    diff = next_birthday - now
-
-    st.markdown("<h3>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
-    st.success(f"باقي **{diff.days}** يوم و **{diff.seconds // 3600}** ساعة على يومك المميز!")
     
-    st.write("---")
+    password = st.text_input("كلمة السر", type="password")
+    if st.button("دخول ✨"):
+        if password == "emoo2026":
+            st.session_state["password_correct"] = True
+            st.rerun()
+        else:
+            st.error("الكود غلط يا ايمو ❌")
+    st.stop()
 
-    # 2. عداد العمر (أيام - دقائق - ثواني)
-    st.markdown("<h3>⏳ رحلتك الجميلة في الحياة</h3>", unsafe_allow_html=True)
-    total_diff = now - birth_date
-    col1, col2, col3 = st.columns(3)
-    with col1: st.metric("أيام", f"{total_diff.days:,}")
-    with col2: st.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
-    with col3: st.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
-
-    st.write("---")
+# --- التصميم الداخلي (بينك قوي ومنظم) ---
+st.markdown("""
+    <style>
+    /* الخلفية الوردية */
+    .stApp { background-color: #ff85a1; } 
     
-    # 3. الرسالة والزرار
-    st.info("🎮 بدأت حكايتنا في 2021.. ومن يومها والدنيا أحلى بكثير!")
-    st.markdown("<h2 style='text-align: center; color: #ff4d6d;'>فقط لأني أحبك للأبد ❤️</h2>", unsafe_allow_html=True)
+    /* المستطيل الأبيض الأساسي */
+    .block-container {
+        background-color: white !important;
+        padding: 25px !important;
+        border-radius: 25px !important;
+        border: 6px solid #ff4d6d !important;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        margin-top: 20px;
+    }
+    
+    /* العناوين بألوان قوية */
+    h1, h2, h3 { color: #c9184a !important; text-align: center !important; font-weight: bold !important; }
+    
+    /* استايل العدادات */
+    [data-testid="stMetric"] {
+        background-color: #ffe5ec !important;
+        border: 3px solid #ff4d6d !important;
+        border-radius: 15px !important;
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    [data-testid="stMetricValue"] { color: #ff4d6d !important; font-weight: bold !important; }
+    
+    .footer { text-align: center; color: #ff4d6d; font-weight: bold; margin-top: 30px; font-size: 20px; }
+    </style>
+""", unsafe_allow_html=True)
 
-    if st.button('اضغطي هنا للمفاجأة 💖'):
-        st.snow()
+st.balloons()
+st.markdown("<h1>✨ Emoo ✨</h1>", unsafe_allow_html=True)
 
-    # التوقيع باسمك
-    st.markdown('<div class="footer">By Ahmed Samir</div>', unsafe_allow_html=True)
+# حساب الوقت
+now = datetime.now()
+birth_date = datetime(2005, 5, 5)
+next_birthday = datetime(now.year, 5, 5)
+if next_birthday < now:
+    next_birthday = datetime(now.year + 1, 5, 5)
+diff = next_birthday - now
+
+# العداد التنازلي
+st.markdown("<h3>🎁 باقي على عيد ميلادك:</h3>", unsafe_allow_html=True)
+st.info(f"باقي {diff.days} يوم و {diff.seconds // 3600} ساعة")
+
+st.write("---")
+
+# العدادات تحت بعضها (عشان الموبايل)
+st.markdown("<h3>⏳ رحلتك الجميلة:</h3>", unsafe_allow_html=True)
+total_diff = now - birth_date
+st.metric("أيام", f"{total_diff.days:,}")
+st.metric("دقائق", f"{int(total_diff.total_seconds() // 60):,}")
+st.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
+
+st.write("---")
+st.markdown("<h2 style='text-align: center;'>أحبك للأبد ❤️</h2>", unsafe_allow_html=True)
+
+if st.button('اضغطي هنا للمفاجأة 💖'):
+    st.snow()
+
+st.markdown('<div class="footer">By Ahmed Samir</div>', unsafe_allow_html=True)
