@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime
+import os
 
 # إعدادات الصفحة
 st.set_page_config(page_title="Emoo ❤️", page_icon="💖", layout="centered")
@@ -30,7 +31,7 @@ if "password_correct" not in st.session_state:
             st.error("الكود غلط يا ايمو ❌")
     st.stop()
 
-# --- الاستايل الأسود الرايق ---
+# --- الاستايل الأسود الشيك ---
 st.markdown("""
     <style>
     .stApp { background-color: #0e1117; color: white; }
@@ -43,21 +44,16 @@ st.markdown("""
     }
     h1 { color: #ff4d6d !important; text-align: center !important; margin-bottom: 5px; }
     .love-text { color: #ffffff; text-align: center; font-size: 18px; margin-bottom: 20px; }
-    
-    /* استايل الرسالة المخفية */
     .stDetails {
         background-color: #262730 !important;
         border-radius: 10px !important;
         border: 1px solid #ff4d6d !important;
     }
-    
-    /* استايل العدادات */
     [data-testid="stMetric"] {
         background-color: #262730 !important;
         border: 1px solid #ff4d6d !important;
         border-radius: 10px !important;
         padding: 10px !important;
-        margin-bottom: 10px;
     }
     .footer { text-align: center; color: #555; margin-top: 30px; font-size: 14px; }
     </style>
@@ -65,20 +61,33 @@ st.markdown("""
 
 st.balloons()
 
-# 1. العنوان والجملة
+# 1. العنوان والجملة الأساسية
 st.markdown("<h1>✨ Emoo ✨</h1>", unsafe_allow_html=True)
 st.markdown('<p class="love-text">فقط لأني أحبك.. أحبك للأبد ❤️</p>', unsafe_allow_html=True)
 
-# 2. خيار "رسالة مني ليك"
+# 2. رسالة مني ليك (بعد التعديل الأخير)
 with st.expander("💌 دي رسالة مني ليكي (افتحيها)"):
     st.write("""
-    الموقع ده ذكري مني لو الايام خدتنا وبعدنا عن بعض 
-    بدأتها بحاجه حزينه صح؟ 😂😂
-    مش هقدر اقول كلام كتير بس انتي عندي حاجه كبيره جدا واختي ويومي مش بيكمل من غيرك ساعات بعاتب الدنيا انك مش جنبي واختي فعلا 
-    بس حتي لو بعدتنا المسافات انا بحبك ❤️
+    الموقع ده ذكري مني لو الايام خدتنا وبعدنا عن بعض.. بدأتها بحاجه حزينه صح؟ 😂😂
+    
+    مش هقدر اقول كلام كتير بس انتي عندي حاجه كبيره جدا واختي ويومي مش بيكمل من غيرك، ساعات بعاتب الدنيا انك مش جنبي واختي فعلا، بس حتي لو بعدتنا المسافات انا بحبك ❤️
     
     احلا حد في الدنيا كده كده 💗
+    
+    هنخلي الموقع ده بينا نحط فيه ذكريات ونحتفل بعيد ميلادك سنين كتيره.. حبيت اول واحد يقول كل سنه وانتي طيب يا ميمو، العمر كله ليكي ويكون خير عليكي وتحققي كل حاجه نفسك فيها بحبك 💗🎉❤️
     """)
+
+# 3. عرض الصور اللي أنت ضفتها
+# ملاحظة: لو الصور مش ظاهرة، اتأكد إن أساميهم في GitHub مطابقة للأسامي اللي تحت دي
+with st.expander("📸 ذكرياتنا الحلوة"):
+    col1, col2 = st.columns(2)
+    # هحاول أعرض أي ملفات صور بصيغ مشهورة رفعتها
+    images = [f for f in os.listdir('.') if f.endswith(('.png', '.jpg', '.jpeg'))]
+    if images:
+        for img in images:
+            st.image(img, use_column_width=True)
+    else:
+        st.write("ارفع الصور على GitHub عشان تظهر هنا يا بطل!")
 
 st.write("---")
 
@@ -90,12 +99,13 @@ if next_birthday < now:
     next_birthday = datetime(now.year + 1, 5, 5)
 diff = next_birthday - now
 
-# 3. العدادات (تحت بعض للموبايل)
+# 4. العداد التنازلي
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>🎁 العد التنازلي لعيد ميلادك</h3>", unsafe_allow_html=True)
-st.success(f"باقي {diff.days} يوم و {diff.seconds // 3600} ساعة")
+st.success(f"باقي **{diff.days}** يوم و **{diff.seconds // 3600}** ساعة!")
 
 st.write("---")
 
+# 5. عداد العمر
 st.markdown("<h3 style='text-align:center; color:#ffb3c1;'>⏳ رحلتك الجميلة</h3>", unsafe_allow_html=True)
 total_diff = now - birth_date
 st.metric("أيام", f"{total_diff.days:,}")
@@ -104,7 +114,7 @@ st.metric("ثواني", f"{int(total_diff.total_seconds()):,}")
 
 st.write("---")
 
-# 4. زر المفاجأة والتوقيع
+# 6. زر المفاجأة والتوقيع
 if st.button('اضغطي هنا للمفاجأة 💖'):
     st.snow()
 
